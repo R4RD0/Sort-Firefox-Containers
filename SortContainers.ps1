@@ -1,8 +1,8 @@
 # Fetch our container list
 $profileLocation = "$env:APPDATA\Mozilla\Firefox\Profiles\"
-$default = Get-ChildItem -Path $profileLocation -Directory | Where-Object { $_.PSIsContainer -and $_.Name -like "*.default*" } | Select-Object -First 1
+$default = Get-ChildItem -Path $profileLocation -Directory | Where-Object { $_.PSIsContainer -and $_.Name -like "*.default*" } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 if (-not $default) {
-  Write-Error "Default release Profile has gone AWOL. Try running the script with the container pre set."
+  Write-Error "Default release Profile has gone AWOL. Try running the script with the container pre set in line 8."
   return
 }
 $Container = "$profileLocation$($default.Name)\containers.json"
@@ -38,6 +38,7 @@ $sortedIdentities = $json.identities | Sort-Object -Property $selectedOption
 $json.identities = $sortedIdentities
 
 # Save the modified JSON back to the file
-$json | ConvertTo-Json | Set-Content -Path $Container
+$json | ConvertTo-Json -Compress | Set-Content -Path $Container
+Write-Host "Location: $Container"
 
 Write-Host "DONE! Containers have been sorted by: $selectedOption "
