@@ -1,11 +1,11 @@
 # Fetch our container list
 $profileLocation = "$env:APPDATA\Mozilla\Firefox\Profiles\"
-$defaultRelease = Get-ChildItem -Path $profileLocation -Directory | Where-Object { $_.PSIsContainer -and $_.Name -like "*.default-release" } | Select-Object -First 1
-if (-not $defaultRelease) {
-  Write-Error "Profile has gone AWOL. If your profile folder is not named '*.default-release' Try running the script with the container location pre set in line 8"
+$default = Get-ChildItem -Path $profileLocation -Directory | Where-Object { $_.PSIsContainer -and $_.Name -like "*.default*" } | Select-Object -First 1
+if (-not $default) {
+  Write-Error "Default release Profile has gone AWOL. Try running the script with the container pre set."
   return
 }
-$Container = "$profileLocation$($defaultRelease.Name)\containers.json"
+$Container = "$profileLocation$($default.Name)\containers.json"
 
 # Load the JSON file
 $json = Get-Content -Raw -Path $Container | ConvertFrom-Json
