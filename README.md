@@ -15,7 +15,7 @@ Choose and update sorting options in script, Run script, restart firefox. job do
 
 
 ### Issues
-Some testing has shown that the extention menu wont update after sorting the comtaimers.json file. 
+Some testing has shown that the extention menu wont update after sorting the comtainers.json file. 
 
 If this happens I have found that randomly running through the following eventually helps and gets it going again (exact process still needs to be confirmed):
 -Changing the option for firefox syncronisation
